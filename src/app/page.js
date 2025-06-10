@@ -1,7 +1,12 @@
+'use client';
+
+import { useState } from "react";
+
 import Footer from "@/component/footer/Footer";
 import Header from "@/component/header/Header";
 
 import Product from "@/component/product/Product";
+import Card from "@/component/ui/card/Card";
 
 export default function Home() {
 
@@ -38,6 +43,8 @@ export default function Home() {
   ];
 
 
+  console.log("dummyProducts: ", dummyProducts);
+
   return (
     <>
       <Header/>
@@ -47,6 +54,9 @@ export default function Home() {
                 <Product key={product.id} product={product}/>
               ))}
           </section>
+          <Card>
+            <h1>Whatever</h1>
+          </Card>
       </main>
       <Footer/>
     </>
