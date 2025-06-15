@@ -7,8 +7,13 @@ import Header from "@/component/header/Header";
 
 import Product from "@/component/product/Product";
 import Card from "@/component/ui/card/Card";
+import { useSelector } from "react-redux";
 
 export default function Home() {
+
+  const cart = useSelector((state) => state.cart);
+
+  console.log("cart in homepage: ", cart);
 
   // dummy api
   const dummyProducts = [
@@ -44,7 +49,9 @@ export default function Home() {
 
 
   console.log("dummyProducts: ", dummyProducts);
-
+  const handleClick = () => {
+    console.log("click");
+  };
   return (
     <>
       <Header/>
@@ -54,7 +61,7 @@ export default function Home() {
                 <Product key={product.id} product={product}/>
               ))}
           </section>
-          <Card>
+          <Card title="test" button={<button onClick={handleClick}>This is a button</button>} >
             <h1>Whatever</h1>
           </Card>
       </main>

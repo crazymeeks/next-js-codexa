@@ -5,6 +5,8 @@ import Price from "./Price";
 import ProductName from "./ProductName";
 import Card from "../ui/card/Card";
 import Button from "../ui/button/Button";
+import { useSelector, useDispatch } from "react-redux";
+import { cartSlice } from "@/redux/features/cart/cartSlice";
 
 
 // state manage
@@ -12,13 +14,22 @@ import Button from "../ui/button/Button";
 
 const Product = ({ product }) => {
 
+  const dispatch = useDispatch();
+  
+  const cart = useSelector((state) => state.cart);
+
   const [quantity, setQuantity] = useState(0);
 
   const [email, setEmail] = useState(null);
 
-  console.log("quantity: ", quantity);
+  console.log("cart: ", cart);
 
   const buttonTitle = "Add to Cart";
+
+
+  const handleAddToCart = () => {
+    dispatch(cartSlice.actions.addToCart());
+  };
 
   return (
       <Card>
@@ -29,7 +40,7 @@ const Product = ({ product }) => {
 
         <input type="text" onKeyDown={(event) => setQuantity(event.target.value)}/>
 
-        <Button title={buttonTitle} className="bg-blue-500"/>
+        <Button onClick={handleAddToCart} title={buttonTitle} className="bg-blue-500 cursor-pointer"/>
         
       </Card>
     );
