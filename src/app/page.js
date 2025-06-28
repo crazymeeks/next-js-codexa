@@ -7,6 +7,7 @@ export default function Home() {
           <p>This is my homepage</p>
           <p>Welcome</p>
           <p>Hello</p>
+          <p>Hello ni Mhel</p>
       </main>
     </>
   );
