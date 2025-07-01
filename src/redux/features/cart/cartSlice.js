@@ -5,12 +5,14 @@ export const cartSlice = createSlice({
   name: 'cart',
 
   initialState: {
-    counter: 1
+    counter: 0
   },
 
   reducers: {
     
-    handleIncrease: (state) => {},
+    handleIncrease: (state) => {
+      state.counter++;
+    },
 
     handleDecrease: (state) => {},
   }

@@ -1,11 +1,11 @@
 import ProductModalContent from "./ProductModalContent";
 
-const ProductModal = ({counter}) => {
+const ProductModal = () => {
 
     return (
       <>
-      <div>Product Modal Counter: {counter}</div>
-      <ProductModalContent counter={counter}/>
+      <div>Product Modal Counter: </div>
+      <ProductModalContent/>
     </>
     );
 

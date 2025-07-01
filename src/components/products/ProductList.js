@@ -1,31 +1,26 @@
 'use client';
 
-import { useState } from "react";
 import ProductModal from "./ProductModal";
 import { useDispatch, useSelector } from "react-redux";
-
+import { cartSlice } from "@/redux/features/cart/cartSlice";
 
 const ProductList = () => {
 
-  
   const cart = useSelector((state) => state.cart);
-  console.log('redux counter: ', cart.counter);
+
   const dispatch = useDispatch();
 
-  const [counter, setCounter] = useState(0);
-
-
   const handleIncrease = () => {
-    setCounter((prev) => prev + 1);
+    dispatch(cartSlice.actions.handleIncrease());
   };
 
   const handleDecrease = () => {
-    setCounter((prev) => prev - 1);
+    
   };
 
   return (
     <>
-      <div>Count: {counter}</div>
+      <div>Count: {cart.counter}</div>
       <div className="flex gap-2">
         <button
           onClick={handleIncrease}
@@ -39,7 +34,7 @@ const ProductList = () => {
         </button>
       </div>
 
-      <ProductModal counter={counter}/>
+      <ProductModal/>
     </>
   );
 };

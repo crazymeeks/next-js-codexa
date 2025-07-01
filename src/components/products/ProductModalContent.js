@@ -1,9 +1,9 @@
-const ProductModalContent = ({counter}) => {
+const ProductModalContent = () => {
 
 
   return (
       <>
-      <div>Product Modal Content Counter: {counter}</div>
+      <div>Product Modal Content Counter: </div>
     </>
     );
 };
