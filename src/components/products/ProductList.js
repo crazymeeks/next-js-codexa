@@ -2,9 +2,15 @@
 
 import { useState } from "react";
 import ProductModal from "./ProductModal";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const ProductList = () => {
+
+  
+  const cart = useSelector((state) => state.cart);
+  console.log('redux counter: ', cart.counter);
+  const dispatch = useDispatch();
 
   const [counter, setCounter] = useState(0);
 
