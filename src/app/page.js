@@ -14,3 +14,8 @@ export default function Home() {
 
 // about - slug
 // localhost:3000/about
+
+// Homepage
+//   - ProductList
+//     - ProductModal
+//       - ProductModalContent

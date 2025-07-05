@@ -15,7 +15,7 @@ const ProductList = () => {
   };
 
   const handleDecrease = () => {
-    
+    dispatch(cartSlice.actions.handleDecrease());
   };
 
   return (

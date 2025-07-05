@@ -14,6 +14,8 @@ export const cartSlice = createSlice({
       state.counter++;
     },
 
-    handleDecrease: (state) => {},
+    handleDecrease: (state) => {
+      state.counter--;
+    },
   }
 });
