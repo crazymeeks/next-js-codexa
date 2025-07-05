@@ -5,17 +5,23 @@ export const cartSlice = createSlice({
   name: 'cart',
 
   initialState: {
-    counter: 0
+    items: [
+      // {
+      //   id: null,
+      //   image: null,
+      //   name: null,
+      //   quantity: 0,
+      //   price: 0
+      // }
+    ],
+
+    grand_total: 0,
+    overall_quantity: 0
   },
 
   reducers: {
-    
-    handleIncrease: (state) => {
-      state.counter++;
-    },
-
-    handleDecrease: (state) => {
-      state.counter--;
-    },
+    addToCart: (state) => {
+      
+    }
   }
 });
