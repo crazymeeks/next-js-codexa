@@ -1,7 +1,7 @@
 'use client';
 
-import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { cartSlice } from "@/redux/features/cart/cartSlice";
 import Image from "next/image";
 import {
@@ -9,19 +9,26 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Trash2 } from "lucide-react";
 
 const ProductList = () => {
 
   const cart = useSelector((state) => state.cart);
   const product = useSelector((state) => state.product);
+
+  console.log("cart: ", cart);
   const [isOpen, setIsOpen] = useState(false);
   const cartItems = [];
   const dispatch = useDispatch();
 
+
   const handleCartClick = () => {
+    // false
+    // !false = true
+    // !true = false
     setIsOpen((prev) => !prev);
   };
+
 
   const handleAddToCart = (product) => {
     dispatch(cartSlice.actions.addToCart(product));
@@ -31,7 +38,7 @@ const ProductList = () => {
     <>
       <div className="fixed top-4 right-4 z-50">
         <button
-        onClick={handleCartClick}
+          onClick={handleCartClick}
           className="relative bg-white p-3 rounded-full shadow hover:bg-gray-100 transition hover:cursor-pointer"
         >
           <ShoppingBag />
@@ -43,13 +50,16 @@ const ProductList = () => {
           <div className="absolute right-0 mt-2 w-72 bg-white border rounded shadow-lg p-4">
             <h4 className="font-bold mb-2">Shopping Cart</h4>
             {cart.overall_quantity <= 0 ? (
-              <p className="text-sm text-gray-500">You cart is empty.</p>
+              <p className="text-sm text-gray-500">Your cart is empty.</p>
             ): (
               <ul className="space-y-2">
-                {cartItems.map((item) => (
+                {cart.items.map((item) => (
                   <li key={item.id} className="flex justify-between text-sm">
                     <span>{item.name} x {item.quantity}</span>
-                    <span>PHP{item.price}.00</span>
+                    <span>PHP{item.price}</span>
+                    <span>
+                      <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -71,13 +81,13 @@ const ProductList = () => {
                   </div>
                   <div className="flex justify-between mt-2">
                     <h3 className="font-bold">{product.name}</h3>
-                    <p>PHP{product.price}.00</p>
+                    <p>PHP{product.price}</p>
                   </div>
-                  <Button 
+                  <Button
                     onClick={() => handleAddToCart(product)}
                     className="w-full font-bold hover:cursor-pointer">
                     ADD TO CART
-                    </Button>
+                  </Button>
               </CardContent>
           </Card>
         ))}
