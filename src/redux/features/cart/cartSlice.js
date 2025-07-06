@@ -30,6 +30,9 @@ export const cartSlice = createSlice({
       state.overall_quantity += 1;
     },
 
-    deleteCartItem: (state, action) => {},
+    deleteCartItem: (state, action) => {
+      state.items = state.items.filter((item) => item.id !== action.payload.id);
+      state.overall_quantity -= 1;
+    },
   }
 });
