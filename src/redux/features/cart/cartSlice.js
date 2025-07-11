@@ -54,8 +54,22 @@ export const cartSlice = createSlice({
 
     },
 
-    updateQuantity: (state, action) => {
+    increaseQuantity: (state, action) => {
+      const increase = state.items.find(item => item.product_id === action.payload.product_id);
 
+      if(increase) {
+        increase.quantity += 1;
+        state.overall_quantity += 1;
+      }
     },
+
+    decreaseQuantity: (state, action) => {
+      const decrease = state.items.find(item => item.product_id === action.payload.product_id);
+
+      if(decrease) {
+        decrease.quantity -= 1;
+        state.overall_quantity -= 1;
+      }
+    }
   }
 });

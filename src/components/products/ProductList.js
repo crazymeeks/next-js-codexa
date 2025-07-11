@@ -38,6 +38,14 @@ const ProductList = () => {
     dispatch(cartSlice.actions.deleteCartItem({product_id: item.product_id}));
   };
 
+  const increaseQuantity = (item) => {
+    dispatch(cartSlice.actions.increaseQuantity({product_id: item.product_id}));
+  }
+
+  const decreaseQuantity = (item) => {
+    dispatch(cartSlice.actions.decreaseQuantity({product_id: item.product_id}));
+  }
+
   return (
     <>
       <div className="fixed top-4 right-4 z-50">
@@ -58,22 +66,34 @@ const ProductList = () => {
             ): (
               <ul className="space-y-2">
                 {cart.items.map((item) => (
-                  <>
-                    <li key={item.id} className="flex justify-between text-sm">
+                  <li key={item.id} className="text-sm border-b pb-2">
+                    <div className="flex justify-between">
                       <span>{item.name} x {item.quantity}</span>
                       <span>PHP{item.price}</span>
-                      <span
-                        onClick={() => handleDeleteCartItem(item)}
-                      >
-                        <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
+                      <span onClick={() => handleDeleteCartItem(item)}>
+                        <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer" />
                       </span>
-                    </li>
-                    <button className="border">+</button>
-                    <p>Q</p>
-                    <button>-</button>
-                  </>
+                    </div>
+
+                    <div className="flex items-center gap-2 mt-1">
+                      <button 
+                        onClick={() => increaseQuantity(item)}
+                        className="border w-6 h-6 flex items-center justify-center"
+                      >
+                        +
+                      </button>
+                      <p>{item.quantity}</p>
+                      <button 
+                        className="border w-6 h-6 flex items-center justify-center"
+                        onClick={() => item.quantity === 1 ? handleDeleteCartItem(item) : decreaseQuantity(item)}
+                      >
+                        -
+                      </button>
+                    </div>
+                  </li>
                 ))}
-              </ul>
+        </ul>
+
             )}
           </div>
         )}
