@@ -38,10 +38,6 @@ export const cartSlice = createSlice({
     },
 
     deleteCartItem: (state, action) => {
-<<<<<<< HEAD
-      state.items = state.items.filter((item) => item.id !== action.payload.id);
-      state.overall_quantity -= 1;
-=======
       // Find index of item in the cart to be deleted
       const index = state.items.findIndex(item => item.product_id === action.payload.product_id);
       // index of found item or -1
@@ -60,7 +56,6 @@ export const cartSlice = createSlice({
 
     updateQuantity: (state, action) => {
 
->>>>>>> lesson/redux-day-2
     },
   }
 });

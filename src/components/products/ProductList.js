@@ -34,13 +34,8 @@ const ProductList = () => {
     dispatch(cartSlice.actions.addToCart(product));
   };
 
-<<<<<<< HEAD
-  const handleDeleteItems = (item) => {
-    dispatch(cartSlice.actions.deleteCartItem({id: item.id}));
-=======
   const handleDeleteCartItem = (item) => {
     dispatch(cartSlice.actions.deleteCartItem({product_id: item.product_id}));
->>>>>>> lesson/redux-day-2
   };
 
   return (
@@ -63,20 +58,20 @@ const ProductList = () => {
             ): (
               <ul className="space-y-2">
                 {cart.items.map((item) => (
-                  <li key={item.id} className="flex justify-between text-sm">
-                    <span>{item.name} x {item.quantity}</span>
-                    <span>PHP{item.price}</span>
-<<<<<<< HEAD
-                    <span>
-                      <Trash2 onClick={() => handleDeleteItems(item)} className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
-=======
-                    <span
-                      onClick={() => handleDeleteCartItem(item)}
-                    >
-                      <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
->>>>>>> lesson/redux-day-2
-                    </span>
-                  </li>
+                  <>
+                    <li key={item.id} className="flex justify-between text-sm">
+                      <span>{item.name} x {item.quantity}</span>
+                      <span>PHP{item.price}</span>
+                      <span
+                        onClick={() => handleDeleteCartItem(item)}
+                      >
+                        <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
+                      </span>
+                    </li>
+                    <button className="border">+</button>
+                    <p>Q</p>
+                    <button>-</button>
+                  </>
                 ))}
               </ul>
             )}
