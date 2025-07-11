@@ -53,5 +53,9 @@ export const cartSlice = createSlice({
       }
 
     },
+
+    updateQuantity: (state, action) => {
+
+    },
   }
 });
