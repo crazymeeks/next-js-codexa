@@ -9,7 +9,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
-import { ShoppingBag, Trash2 } from "lucide-react";
+import { ShoppingBag, Trash2, Plus, Minus } from "lucide-react";
 
 const ProductList = () => {
 
@@ -38,6 +38,14 @@ const ProductList = () => {
     dispatch(cartSlice.actions.deleteCartItem({product_id: item.product_id}));
   };
 
+  const handleDecreaseQuantity = (item) => {
+    dispatch(cartSlice.actions.decreaseQuantity(item));
+  };
+
+  const handleIncreaseQuantity = (item) => {
+    dispatch(cartSlice.actions.increaseQuantity(item));
+  };
+
   return (
     <>
       <div className="fixed top-4 right-4 z-50">
@@ -58,14 +66,31 @@ const ProductList = () => {
             ): (
               <ul className="space-y-2">
                 {cart.items.map((item) => (
-                  <li key={item.id} className="flex justify-between text-sm">
-                    <span>{item.name} x {item.quantity}</span>
-                    <span>PHP{item.price}</span>
-                    <span
-                      onClick={() => handleDeleteCartItem(item)}
-                    >
-                      <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
-                    </span>
+                  <li key={item.id}>
+                    <div className="flex justify-between text-sm">
+                      <span>{item.name} x {item.quantity}</span>
+                      <span>PHP{item.price}</span>
+                      <span
+                        onClick={() => handleDeleteCartItem(item)}
+                      >
+                        <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 mt-1">
+                      <span
+                        className="border p-1 hover:cursor-pointer"
+                        onClick={() => handleDecreaseQuantity(item)}
+                      >
+                          <Minus className="h-4 w-4"/>
+                      </span>
+                      {item.quantity}
+                      <span
+                        className="border p-1 hover:cursor-pointer"
+                        onClick={() => handleIncreaseQuantity(item)}
+                      >
+                          <Plus className="h-4 w-4"/>
+                      </span>
+                    </div>
                   </li>
                 ))}
               </ul>

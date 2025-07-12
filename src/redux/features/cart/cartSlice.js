@@ -54,8 +54,25 @@ export const cartSlice = createSlice({
 
     },
 
-    updateQuantity: (state, action) => {
+    decreaseQuantity: (state, action) => {
+      const existingItem = state.items.find(item => item.product_id === action.payload.product_id);
 
+      if (existingItem) {
+        if (existingItem.quantity > 1) {
+          existingItem.quantity -= 1;
+          state.overall_quantity -= 1;
+        }
+      }
+    },
+
+    increaseQuantity: (state, action) => {
+      const existingItem = state.items.find(item => item.product_id === action.payload.product_id);
+
+      if (existingItem) {
+        
+        existingItem.quantity += 1;
+        state.overall_quantity += 1;
+      }
     },
   }
 });
