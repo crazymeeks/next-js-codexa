@@ -9,7 +9,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
-import { ShoppingBag, Trash2 } from "lucide-react";
+import { ShoppingBag, Trash2, Plus, Minus } from "lucide-react";
 
 const ProductList = () => {
 
@@ -38,6 +38,14 @@ const ProductList = () => {
     dispatch(cartSlice.actions.deleteCartItem({product_id: item.product_id}));
   };
 
+  const handleDecreaseQty = (item) => {
+    dispatch(cartSlice.actions.decreaseQuantity({product_id: item.product_id}));
+  };
+
+  const handleIncreaseQty = (item) => {
+    dispatch(cartSlice.actions.increaseQuantity({product_id: item.product_id}));
+  };
+
   return (
     <>
       <div className="fixed top-4 right-4 z-50">
@@ -58,14 +66,30 @@ const ProductList = () => {
             ): (
               <ul className="space-y-2">
                 {cart.items.map((item) => (
-                  <li key={item.id} className="flex justify-between text-sm">
-                    <span>{item.name} x {item.quantity}</span>
-                    <span>PHP{item.price}</span>
-                    <span
-                      onClick={() => handleDeleteCartItem(item)}
-                    >
-                      <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
-                    </span>
+                  <li key={item.id} >
+                    <div className="flex justify-between text-sm">
+                        <span>{item.name} x {item.quantity}</span>
+                      <span>PHP{item.price}</span>
+                      <span
+                        onClick={() => handleDeleteCartItem(item)}
+                      >
+                        <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
+                      </span>
+                    </div>
+                    <div className="flex text-sm">
+                      <span
+                      onClick={() => handleDecreaseQty(item)}
+                      >
+                        <Minus className="h-4 w-4  rounded-[3px] border hover:cursor-pointer"/>
+                      </span>
+                      <span className="px-2">
+                        {item.quantity}
+                      </span>
+                      <span
+                        onClick={() => handleIncreaseQty(item)}>
+                        <Plus className="h-4 w-4  rounded-[3px] border hover:cursor-pointer"/>
+                      </span>
+                    </div>
                   </li>
                 ))}
               </ul>

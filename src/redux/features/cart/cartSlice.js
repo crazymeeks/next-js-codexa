@@ -54,8 +54,32 @@ export const cartSlice = createSlice({
 
     },
 
-    updateQuantity: (state, action) => {
-
+    decreaseQuantity: (state, action) => {
+      const index = state.items.findIndex(item => item.product_id === action.payload.product_id);
+      if (index !== -1) {
+        const toUpdateItem = state.items[index];
+        if(toUpdateItem.quantity===1){
+          const index = state.items.findIndex(item => item.product_id === action.payload.product_id);
+      // index of found item or -1
+      // remove the item based on index
+      // using .splice()
+      if (index !== -1) {
+        
+      }
+        }else{
+          toUpdateItem.quantity -= 1;
+          state.overall_quantity -=1;
+        }
+        
+      }
+    },
+    increaseQuantity: (state, action) => {
+      const index = state.items.findIndex(item => item.product_id === action.payload.product_id);
+      if (index !== -1) {
+        const toUpdateItem = state.items[index];
+        toUpdateItem.quantity += 1;
+        state.overall_quantity +=1;
+      }
     },
   }
 });
