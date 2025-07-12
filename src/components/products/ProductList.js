@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import { ShoppingBag, Trash2, Plus, Minus } from "lucide-react";
+import { toast } from "react-toastify";
 
 const ProductList = () => {
 
@@ -32,6 +33,7 @@ const ProductList = () => {
 
   const handleAddToCart = (product) => {
     dispatch(cartSlice.actions.addToCart(product));
+    toast.success("Product added to your cart.");
   };
 
   const handleDeleteCartItem = (item) => {
@@ -78,8 +80,12 @@ const ProductList = () => {
                     </div>
                     <div className="flex items-center gap-3 mt-1">
                       <span
-                        className="border p-1 hover:cursor-pointer"
-                        onClick={() => handleDecreaseQuantity(item)}
+                      className={`border p-1 ${item.quantity === 1 ? 'text-gray-500 hover:cursor-not-allowed' : 'hover:cursor-pointer'}`}
+                      onClick={() => {
+                        if (item.quantity > 1) {
+                          handleDecreaseQuantity(item);
+                        }
+                      }}
                       >
                           <Minus className="h-4 w-4"/>
                       </span>

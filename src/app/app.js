@@ -1,6 +1,7 @@
 'use client';
 import { store } from "@/redux/store";
 import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 const App = ({children}) => {
 
@@ -8,6 +9,7 @@ const App = ({children}) => {
     
     <Provider store={store}>
       {children}
+      <ToastContainer/>
     </Provider>
   );
 };
