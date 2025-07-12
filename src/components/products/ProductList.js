@@ -34,6 +34,10 @@ const ProductList = () => {
     dispatch(cartSlice.actions.addToCart(product));
   };
 
+  const handleDeleteCartItem = (item) => {
+    dispatch(cartSlice.actions.deleteCartItem({product_id: item.product_id}));
+  };
+
   return (
     <>
       <div className="fixed top-4 right-4 z-50">
@@ -57,7 +61,9 @@ const ProductList = () => {
                   <li key={item.id} className="flex justify-between text-sm">
                     <span>{item.name} x {item.quantity}</span>
                     <span>PHP{item.price}</span>
-                    <span>
+                    <span
+                      onClick={() => handleDeleteCartItem(item)}
+                    >
                       <Trash2 className="h-4 w-4 text-red-500 hover:cursor-pointer"/>
                     </span>
                   </li>
