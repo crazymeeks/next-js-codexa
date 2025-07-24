@@ -47,7 +47,7 @@ const PostList = () => {
         <div className="flex justify-center">
           <Button className="hover:cursor-pointer">Create new Post?</Button>
         </div>
-        {showForm && <Form {...form}>
+        <Form {...form}>
           <form onSubmit={form.handleSubmit(handleFormSubmit)}>
               <div className="space-y-2 mb-2">
                   <FormField
@@ -96,7 +96,7 @@ const PostList = () => {
                   <Button>Create POST</Button>
               </div>
           </form>
-        </Form>}
+        </Form>
       </div>
       <Table>
         <TableHeader>
