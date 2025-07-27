@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -16,6 +16,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import { Form, FormField, FormControl, FormLabel, FormItem } from "@/components/ui/form";
+import { useDispatch } from "react-redux";
+import { fetchPosts } from "@/redux/features/posts/postSlice";
 
 const formSchema = z.object({
   user_id: z.number().min(1, "This field is required"),
@@ -28,6 +30,7 @@ const defaultValues = {
   body: ""
 };
 const PostList = () => {
+  const dispatch = useDispatch();
 
   const [showForm, setShowForm] = useState(false);
 
@@ -37,17 +40,33 @@ const PostList = () => {
   });
 
 
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
+
+
   const handleFormSubmit = (data) => {
 
   };
+
+  const handleToggleForm = () => {
+    setShowForm((prev) => !prev);
+  };
+
+  // fetching api - 1minute
+
+  // other code
 
   return (
     <>
       <div className="w-[50%] mx-auto mt-4">
         <div className="flex justify-center">
-          <Button className="hover:cursor-pointer">Create new Post?</Button>
+          <Button
+            className="hover:cursor-pointer"
+            onClick={handleToggleForm}
+          >{!showForm ? 'Create new Post?' : 'Hide Form'}</Button>
         </div>
-        <Form {...form}>
+        {showForm && <Form {...form}>
           <form onSubmit={form.handleSubmit(handleFormSubmit)}>
               <div className="space-y-2 mb-2">
                   <FormField
@@ -92,11 +111,17 @@ const PostList = () => {
                   />
               </div>
               <div className="space-y-2 mb-2 flex justify-end gap-3">
-                  <Button variant="destructive">Cancel</Button>
-                  <Button>Create POST</Button>
+                  <Button variant="destructive" 
+                    className="hover:cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleToggleForm();
+                    }}
+                  >Cancel</Button>
+                  <Button className="hover:cursor-pointer">Create POST</Button>
               </div>
           </form>
-        </Form>
+        </Form>}
       </div>
       <Table>
         <TableHeader>
