@@ -4,7 +4,7 @@ import axios from "axios";
 export const fetchPosts = createAsyncThunk('posts', async () => {
 
   const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
-  return response;
+  return response.data;
 });
 
 const postSlice = createSlice({
@@ -21,9 +21,14 @@ const postSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    // fulfilled
-    builder.addCase(fetchPosts.fulfilled, (state, action) =>{
+
+    builder
+    .addCase(fetchPosts.pending, (state, action) =>{
       console.log("action: ", action);
+    })
+    .addCase(fetchPosts.fulfilled, (state, action) =>{
+      console.log("action: ", action);
+      state.data = action.payload;
     })
   },
 });
