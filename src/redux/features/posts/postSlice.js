@@ -1,11 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-export const fetchPosts = createAsyncThunk('posts', async () => {
-
-  const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
-  return response.data;
-});
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchPosts } from "./thunk";
 
 const postSlice = createSlice({
   name: 'post',
@@ -27,7 +21,6 @@ const postSlice = createSlice({
       console.log("action: ", action);
     })
     .addCase(fetchPosts.fulfilled, (state, action) =>{
-      console.log("action: ", action);
       state.data = action.payload;
     })
   },

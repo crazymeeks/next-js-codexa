@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const PostTable = ({posts}) => {
+const PostTable = ({posts, handleEdit}) => {
 
   return <Table>
         <TableHeader>
@@ -22,20 +22,23 @@ const PostTable = ({posts}) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {posts.data.map((post) => <PostTableRow key={post.id} post={post}/>)}
+          {posts.data.map((post) => <PostTableRow key={post.id} post={post} handleEdit={handleEdit}/>)}
         </TableBody>
       </Table>
 
 };
 
-const PostTableRow = ({post}) => {
+const PostTableRow = ({post, handleEdit}) => {
   return <TableRow>
             <TableCell className="font-medium">{post.id}</TableCell>
             <TableCell>{post.userId}</TableCell>
             <TableCell>{post.title}</TableCell>
             <TableCell className="flex gap-2">
                 <span className="hover:cursor-pointer">View</span>
-                <span className="hover:cursor-pointer">
+                <span
+                  className="hover:cursor-pointer"
+                  onClick={() => handleEdit(post)}
+                  >
                   <PencilIcon className="h-4 w-4 text-blue-400"/>
                 </span>
                 <span className="hover:cursor-pointer">

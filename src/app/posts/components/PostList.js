@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useRef } from "react"; 
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -9,15 +9,15 @@ import PostForm from "./PostForm";
 import PostTable from "./PostTable";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "@/redux/features/posts/postSlice";
+import { fetchPosts, createPost, updatePost} from "@/redux/features/posts/thunk";
 
 const formSchema = z.object({
-  user_id: z.number().min(1, "This field is required"),
+  userId: z.number().min(1, "This field is required"),
   title: z.string().min(1, "This field is required"),
   body: z.string().min(1, "This field is required"),
 });
 const defaultValues = {
-  user_id: undefined,
+  userId: undefined,
   title: "",
   body: ""
 };
@@ -28,6 +28,8 @@ const PostList = () => {
   const dispatch = useDispatch();
 
   const [showForm, setShowForm] = useState(false);
+  const [hasChange, setHasChange] = useState(false);
+  const toEditPostRef = useRef(null);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -36,8 +38,9 @@ const PostList = () => {
 
 
   useEffect(() => {
+    console.log("Fetching...");
     dispatch(fetchPosts());
-  }, []);
+  }, [hasChange]);
 
 
   useEffect(() => {
@@ -45,13 +48,32 @@ const PostList = () => {
   }, [posts]);
 
 
-  const handleFormSubmit = (data) => {
+  const handleFormSubmit = async(data) => {
 
+    console.log("formData: ", data);
+    if (toEditPostRef.current) {
+      const response = await dispatch(updatePost(toEditPostRef.current, data));
+      console.log("response: ", response);
+    } else {
+      await dispatch(createPost(data));
+
+    }
+
+    setHasChange(prev => !prev);
+
+    
   };
 
   const handleToggleForm = () => {
     setShowForm((prev) => !prev);
   };
+
+  const handleEdit = (post) => {
+    form.reset({...post, userId: Number(post.userId)});
+    setShowForm(true);
+    toEditPostRef.current = post.id;
+  };
+
   return (
     <>
       <div className="w-[50%] mx-auto mt-4">
@@ -65,7 +87,7 @@ const PostList = () => {
         {showForm && <PostForm form={form} handleFormSubmit={handleFormSubmit}/>}
 
       </div>
-      <PostTable posts={posts}/>
+      <PostTable posts={posts} handleEdit={handleEdit}/>
     </>
   );
 };
