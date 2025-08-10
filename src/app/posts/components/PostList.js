@@ -8,13 +8,13 @@ import { useForm } from "react-hook-form";
 import PostForm from "./PostForm";
 import PostTable from "./PostTable";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 // import { fetchPosts, createPost, updatePost} from "@/redux/features/posts/thunk";
 
 const formSchema = z.object({
-  userId: z.number().min(1, "This field is required"),
-  title: z.string().min(1, "This field is required"),
-  body: z.string().min(1, "This field is required"),
+  // userId: z.number().min(1, "This field is required"),
+  // title: z.string().min(1, "This field is required"),
+  // body: z.string().min(1, "This field is required"),
 });
 const defaultValues = {
   userId: undefined,
@@ -39,16 +39,21 @@ const PostList = () => {
   };
 
   // fetch data from backend api using useQuery
-  const { data, isLoading, isError } = useQuery({
+  const { data: posts, isLoading, isError } = useQuery({
     queryKey: ["posts"], // caching
     queryFn: fetchPosts
   });
 
-  useEffect(() => {
-    if (!isLoading) {
-      console.log("data: ", data);
-    }
-  }, [isLoading, data]);
+
+  const createPost = async (data) => {
+      const response = await axios.post(`https://jsonplaceholder.typicode.com/posts`, data);
+      return response.data;
+  };
+
+  const { mutateAsync: addPost, isSuccess } = useMutation({
+    mutationFn: createPost
+  });
+
 
   if (isLoading) {
     return <p>Fetching posts... Please wait.</p>
@@ -63,8 +68,7 @@ const PostList = () => {
       const response = await dispatch(updatePost(toEditPostRef.current, data));
       console.log("response: ", response);
     } else {
-      await dispatch(createPost(data));
-
+      await addPost(data);
     }
 
     setHasChange(prev => !prev);
@@ -95,7 +99,7 @@ const PostList = () => {
         {showForm && <PostForm form={form} handleFormSubmit={handleFormSubmit}/>}
 
       </div>
-      {/* <PostTable posts={posts} handleEdit={handleEdit}/> */}
+      <PostTable posts={posts} handleEdit={handleEdit}/>
     </>
   );
 };

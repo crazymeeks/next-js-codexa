@@ -22,10 +22,9 @@ const PostTable = ({posts, handleEdit}) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {posts.data.map((post) => <PostTableRow key={post.id} post={post} handleEdit={handleEdit}/>)}
+          {posts.map((post) => <PostTableRow key={post.id} post={post} handleEdit={handleEdit}/>)}
         </TableBody>
       </Table>
-
 };
 
 const PostTableRow = ({post, handleEdit}) => {
