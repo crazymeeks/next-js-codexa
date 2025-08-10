@@ -7,9 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import PostForm from "./PostForm";
 import PostTable from "./PostTable";
-
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts, createPost, updatePost} from "@/redux/features/posts/thunk";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+// import { fetchPosts, createPost, updatePost} from "@/redux/features/posts/thunk";
 
 const formSchema = z.object({
   userId: z.number().min(1, "This field is required"),
@@ -23,10 +23,6 @@ const defaultValues = {
 };
 const PostList = () => {
 
-  const posts = useSelector(state => state.post);
-
-  const dispatch = useDispatch();
-
   const [showForm, setShowForm] = useState(false);
   const [hasChange, setHasChange] = useState(false);
   const toEditPostRef = useRef(null);
@@ -37,16 +33,28 @@ const PostList = () => {
   });
 
 
+  const fetchPosts = async () => {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    return response.data;
+  };
+
+  // fetch data from backend api using useQuery
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["posts"], // caching
+    queryFn: fetchPosts
+  });
+
   useEffect(() => {
-    console.log("Fetching...");
-    dispatch(fetchPosts());
-  }, [hasChange]);
+    if (!isLoading) {
+      console.log("data: ", data);
+    }
+  }, [isLoading, data]);
 
+  if (isLoading) {
+    return <p>Fetching posts... Please wait.</p>
+  }
 
-  useEffect(() => {
-    console.log("posts: ", posts);
-  }, [posts]);
-
+  
 
   const handleFormSubmit = async(data) => {
 
@@ -87,7 +95,7 @@ const PostList = () => {
         {showForm && <PostForm form={form} handleFormSubmit={handleFormSubmit}/>}
 
       </div>
-      <PostTable posts={posts} handleEdit={handleEdit}/>
+      {/* <PostTable posts={posts} handleEdit={handleEdit}/> */}
     </>
   );
 };
